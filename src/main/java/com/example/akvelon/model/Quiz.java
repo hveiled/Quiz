@@ -4,9 +4,8 @@ package com.example.akvelon.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import liquibase.pro.packaged.C;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -15,9 +14,9 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "quiz")
-
 public class Quiz {
 
     @Id
@@ -37,9 +36,8 @@ public class Quiz {
     @JsonIgnore
     private boolean active;
 
-    @OneToMany(mappedBy = "quiz", cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER, orphanRemoval = false)
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
-
     private Set<Question> questions = new HashSet<>();
 
     @Override

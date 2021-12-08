@@ -27,10 +27,11 @@ public class QuizService {
 
     public Map<String, Long> saveQuiz(Quiz quiz) {
         Quiz savedQuiz = quizRepo.save(quiz);
+        System.out.println("Hello");
         return Collections.singletonMap("id", savedQuiz.getId());
     }
 
-    public Page<Quiz> getQuizes(String name, String date, boolean activeQuize, boolean displayOrder, Pageable page) {
+    public Page<Quiz> getQuizes(String name, String date, boolean activeQuize, Pageable page) {
         if (name == null && date == null && !activeQuize) {
             return quizRepo.findAll(page);
         } else if (name == null && date == null) {

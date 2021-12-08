@@ -3,28 +3,32 @@ package com.example.akvelon.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Embeddable
 @Table(name = "question")
 public class Question {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id")
     @JsonIgnore
     private Long id;
 
     @NotBlank
     private String text;
-
-    @JsonIgnore
-    @Column(name = "display_order")
-    private Integer displayOrder;
 
     @ManyToOne
     @JoinColumn(name = "quiz_id")
@@ -36,14 +40,12 @@ public class Question {
         if (this == o) return true;
         if (!(o instanceof Question)) return false;
         Question question = (Question) o;
-        return getDisplayOrder().equals(question.getDisplayOrder()) && Objects.equals(getId(),
-                question.getId()) && Objects.equals(getText(),
-                question.getText()) && Objects.equals(getQuiz(),
-                question.getQuiz());
+        return Objects.equals(getId(), question.getId()) && Objects.equals(getText(),
+                question.getText()) && Objects.equals(getQuiz(), question.getQuiz());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getText(), getDisplayOrder(), getQuiz());
+        return Objects.hash(getId(), getText(), getQuiz());
     }
 }

@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -29,13 +26,12 @@ public class QuizRestController {
     public Page<Quiz> getQuiz(@RequestParam(required = false) @Valid String name,
                               @RequestParam(required = false) String date,
                               @RequestParam(required = false) boolean active,
-                              @NotNull @RequestParam boolean displayOrder,
-                              Pageable page) {
-        return quizService.getQuizes(name, date, active, displayOrder, page);
+                              @RequestParam Pageable page) {
+        return quizService.getQuizes(name, date, active, page);
     }
 
     @PostMapping("/quiz/new")
-    public Map<String, Long> createQuiz(@RequestBody @Valid Quiz quiz) {
+    public Map<String, Long> createQuiz(@RequestBody Quiz quiz) {
         return quizService.saveQuiz(quiz);
     }
 
